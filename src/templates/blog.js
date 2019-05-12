@@ -15,7 +15,6 @@ export const query = graphql`
 `
 
 const BlogTemplate = props => {
-  console.log(props.data)
   const { title, text } = props.data.contentfulBlogPost
   const { html } = text.childMarkdownRemark
   return (
