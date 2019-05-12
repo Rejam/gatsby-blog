@@ -12,17 +12,15 @@ module.exports.onCreateNode = ({ node, actions }) => {
   }
 }
 
-module.exports.createPages = ({ graphql, actions }) => {
+module.exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const result = graphql(`
+  const result = await graphql(`
     {
-      query {
-        allMarkdownRemark {
-          edges {
-            node {
-              fields {
-                slug
-              }
+      allMarkdownRemark {
+        edges {
+          node {
+            fields {
+              slug
             }
           }
         }
@@ -31,6 +29,7 @@ module.exports.createPages = ({ graphql, actions }) => {
   `)
   const blogTemplate = path.resolve(`src/templates/blog.js`)
 
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", result)
   result.data.allMarkdownRemark.edges.forEach(edge => {
     const { slug } = edge.node.fields
     createPage({

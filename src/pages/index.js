@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery, Link } from "gatsby"
 
 import Layout from "../components/layout"
 
@@ -13,6 +13,9 @@ const IndexPage = () => {
               title
             }
             excerpt
+            fields {
+              slug
+            }
           }
         }
       }
@@ -24,10 +27,13 @@ const IndexPage = () => {
       <h1>List of Posts</h1>
       {edges.map(edge => {
         const { title } = edge.node.frontmatter
-        const { excerpt } = edge.node
+        const { excerpt, fields } = edge.node
+        const { slug } = fields
         return (
           <div key={title}>
-            <h2>{title}</h2>
+            <h2>
+              <Link to={`/posts/${slug}`}>{title}</Link>
+            </h2>
             <p>{excerpt}</p>
           </div>
         )
