@@ -22,15 +22,15 @@ const IndexPage = () => {
   const { nodes } = data.allContentfulBlogPost
   return (
     <Layout>
-      <h1>List of Posts</h1>
+      <h2>List of Posts</h2>
       {nodes.map(node => {
         const { title, slug, text } = node
         const { excerpt } = text.childMarkdownRemark
         return (
           <div key={slug}>
-            <h2>
+            <h3>
               <Link to={`/posts/${slug}`}>{title}</Link>
-            </h2>
+            </h3>
             <p>{excerpt}</p>
           </div>
         )
