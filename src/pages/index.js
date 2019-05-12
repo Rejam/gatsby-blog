@@ -6,31 +6,28 @@ import Layout from "../components/layout"
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
     {
-      allMarkdownRemark {
-        edges {
-          node {
-            frontmatter {
-              title
-            }
-            excerpt
-            fields {
-              slug
+      allContentfulBlogPost {
+        nodes {
+          slug
+          title
+          text {
+            childMarkdownRemark {
+              excerpt
             }
           }
         }
       }
     }
   `)
-  const { edges } = data.allMarkdownRemark
+  const { nodes } = data.allContentfulBlogPost
   return (
     <Layout>
       <h1>List of Posts</h1>
-      {edges.map(edge => {
-        const { title } = edge.node.frontmatter
-        const { excerpt, fields } = edge.node
-        const { slug } = fields
+      {nodes.map(node => {
+        const { title, slug, text } = node
+        const { excerpt } = text.childMarkdownRemark
         return (
-          <div key={title}>
+          <div key={slug}>
             <h2>
               <Link to={`/posts/${slug}`}>{title}</Link>
             </h2>

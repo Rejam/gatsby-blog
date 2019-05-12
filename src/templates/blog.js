@@ -3,19 +3,21 @@ import { graphql } from "gatsby"
 
 export const query = graphql`
   query($slug: String!) {
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      frontmatter {
-        title
+    contentfulBlogPost(slug: { eq: $slug }) {
+      title
+      text {
+        childMarkdownRemark {
+          html
+        }
       }
-      html
     }
   }
 `
 
 const BlogTemplate = props => {
-  const { markdownRemark } = props.data
-  const { title } = markdownRemark.frontmatter
-  const { html } = markdownRemark
+  console.log(props.data)
+  const { title, text } = props.data.contentfulBlogPost
+  const { html } = text.childMarkdownRemark
   return (
     <div>
       <h1>{title}</h1>
